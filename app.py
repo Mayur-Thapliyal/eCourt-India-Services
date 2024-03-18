@@ -60,8 +60,9 @@ def create_browser():
     chrome_options.add_argument("window-size=1920,1080")
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disadriver_version=chrome_versionble-dev-shm-usage')
-    cService = webdriver.ChromeService(ChromeDriverManager().install())
-    return webdriver.Chrome(service=cService,options=chrome_options)
+    driver = webdriver.Chrome(options=chrome_options)
+    # cService = webdriver.ChromeService(ChromeDriverManager().install())
+    return driver
 
 with st.sidebar:
     cnr_number=st.text_input("Enter your CRN number here")
