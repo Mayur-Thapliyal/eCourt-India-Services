@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import streamlit as st 
 
-import time
+import time,os
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 from lxml import html
@@ -14,19 +14,11 @@ from PIL import Image
 import vk_captchasolver as vc
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
-def scrape_data(cnr_number):
-    chrome_version = "73.0.3683.68"
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument("window-size=1920,1080")
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--disable-dev-shm-usage')
-    cService = webdriver.ChromeService(ChromeDriverManager(driver_version=chrome_version).install())
-    browser = webdriver.Chrome(service=cService,options=chrome_options)
+def scrape_data(cnr_number,browser):
     URL='https://services.ecourts.gov.in/ecourtindia_v6/'
     browser.get(URL)
     soup = BeautifulSoup(urlopen(URL))
-    elem = browser.find_element(By.CLASS_NAME, 'cinumber')  # Find the search box
+    elem = browser.find_element(By.XPATH, '/html/body/div[1]/div/main/div[2]/div/form/input')  # Find the search box
     elem.send_keys(cnr_number)
     while True:
         try:
@@ -56,11 +48,24 @@ def scrape_data(cnr_number):
                     click_to_refresh = browser.find_element(By.XPATH, '/html/body/div/div/a')  # captcha input
                     click_to_refresh.click()
                 except Exception as e:
+                    browser.quit()
                     raise("Something went wrong")
-                
-    browser.quit()
+
+@st.cache_resource
+def create_browser():
+    os.environ['PATH'] = 'chromedriver-path'
+    chrome_version = "114.0.5735.90"
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument("window-size=1920,1080")
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disadriver_version=chrome_versionble-dev-shm-usage')
+    cService = webdriver.ChromeService(ChromeDriverManager().install())
+    return webdriver.Chrome(service=cService,options=chrome_options)
 
 with st.sidebar:
     cnr_number=st.text_input("Enter your CRN number here")
 if cnr_number or cnr_number != "":
-    scrape_data(cnr_number)
+    driver = create_browser()
+    scrape_data(cnr_number,driver)
+
