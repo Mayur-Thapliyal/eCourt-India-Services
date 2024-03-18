@@ -16,11 +16,13 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 def scrape_data(cnr_number,browser):
     URL='https://services.ecourts.gov.in/ecourtindia_v6/'
-    soup = BeautifulSoup(urlopen(URL))
-    elem = browser.find_element(By.XPATH, '/html/body/div[1]/div/main/div[2]/div/form/input')  # Find the search box
-    elem.send_keys(cnr_number)
+    driver.get(URL)
+    
     while True:
         try:
+            elem = browser.find_element(By.XPATH, '/html/body/div[1]/div/main/div[2]/div/form/input')  # Find the search box
+            elem.clear()
+            elem.send_keys(cnr_number)
             print(">>>> itter <<<<<")
             resolve_captcha(driver=browser)
             click_search(driver=browser)
@@ -61,7 +63,6 @@ def create_browser():
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disadriver_version=chrome_versionble-dev-shm-usage')
     driver = webdriver.Chrome(options=chrome_options)
-    driver.get(URL)
     # cService = webdriver.ChromeService(ChromeDriverManager().install())
     return driver
 
