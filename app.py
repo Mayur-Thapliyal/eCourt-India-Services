@@ -21,7 +21,7 @@ def scrape_data(cnr_number):
     chrome_options.add_argument("window-size=1920,1080")
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    cService = webdriver.ChromeService(ChromeDriverManager().install())
+    cService = webdriver.ChromeService(ChromeDriverManager(driver_version=chrome_version).install())
     browser = webdriver.Chrome(service=cService,options=chrome_options)
     URL='https://services.ecourts.gov.in/ecourtindia_v6/'
     browser.get(URL)
