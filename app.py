@@ -14,18 +14,18 @@ from PIL import Image
 import vk_captchasolver as vc
 from selenium.common.exceptions import NoSuchElementException
 
-
 def scrape_data(cnr_number):
+    chrome_version = "122.0.6261.111"
     options =  webdriver.ChromeOptions()
     # options.add_argument("headless")
-    cService = webdriver.ChromeService(ChromeDriverManager().install())
-    browser = webdriver.Chrome(service = cService,options=options)
+    cService = webdriver.ChromeService(ChromeDriverManager(driver_version=chrome_version).install())
+    browser = webdriver.Chrome(service=cService,options=options)
+    # browser = webdriver.Chrome(service = cService,options=options)
     URL='https://services.ecourts.gov.in/ecourtindia_v6/'
     browser.get(URL)
     soup = BeautifulSoup(urlopen(URL))
     elem = browser.find_element(By.CLASS_NAME, 'cinumber')  # Find the search box
     elem.send_keys(cnr_number)
-
     while True:
         try:
             print(">>>> itter <<<<<")
