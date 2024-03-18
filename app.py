@@ -15,7 +15,7 @@ import vk_captchasolver as vc
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 def scrape_data(cnr_number):
-    chrome_version = "122.0.6261.111"
+    chrome_version = "120.0.6099.224"
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument("window-size=1920,1080")
