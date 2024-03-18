@@ -2,6 +2,8 @@ import urllib.request ,time
 from PIL import Image 
 from selenium.webdriver.common.by import By
 import vk_captchasolver as vc
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 # Retrieving the resource located at the URL 
 # and storing it in the file name a.png 
 def download_image(url):
@@ -150,8 +152,9 @@ def resolve_captcha(driver):
     captcha_input_box.send_keys(text)
 
 def click_search(driver):
-    search_button = driver.find_element(By.XPATH, '/html/body/div[1]/div/main/div[2]/div/form/button[1]')  # invalid captcha input
-    search_button.click()
+    # search_button = driver.find_element(By.XPATH, '/html/body/div[1]/div/main/div[2]/div/form/button[1]')  # invalid captcha input
+    # search_button.click()
+    WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/main/div[2]/div/form/button[1]"))).click()
     time.sleep(2)
 
 def img2text(URL):

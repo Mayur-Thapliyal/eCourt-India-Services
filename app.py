@@ -13,14 +13,16 @@ from util import resolve_captcha,click_search
 from PIL import Image
 import vk_captchasolver as vc
 from selenium.common.exceptions import NoSuchElementException
-
+from selenium.webdriver.chrome.options import Options
 def scrape_data(cnr_number):
     chrome_version = "122.0.6261.111"
-    options =  webdriver.ChromeOptions()
-    # options.add_argument("headless")
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument("window-size=1920,1080")
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
     cService = webdriver.ChromeService(ChromeDriverManager(driver_version=chrome_version).install())
-    browser = webdriver.Chrome(service=cService,options=options)
-    # browser = webdriver.Chrome(service = cService,options=options)
+    browser = webdriver.Chrome(service=cService,options=chrome_options)
     URL='https://services.ecourts.gov.in/ecourtindia_v6/'
     browser.get(URL)
     soup = BeautifulSoup(urlopen(URL))
