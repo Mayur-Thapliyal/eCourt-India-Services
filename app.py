@@ -53,7 +53,6 @@ def scrape_data(cnr_number,browser):
 
 @st.cache_resource
 def create_browser():
-    os.environ['PATH'] = 'chromedriver-path'
     chrome_version = "114.0.5735.90"
     chrome_options = Options()
     chrome_options.add_argument('--headless')
